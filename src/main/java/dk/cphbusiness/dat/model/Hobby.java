@@ -14,7 +14,7 @@ import java.util.Set;
 @ToString
 @Builder
 @NoArgsConstructor
-public class Hobby {
+public class Hobby implements IJPAEntity<String>{
 
     @Id
     @Column(name = "name", unique = true, nullable = false)
@@ -27,6 +27,10 @@ public class Hobby {
     @ManyToMany(mappedBy = "hobbies")
     @ToString.Exclude
     private final Set<Person> persons = new HashSet<>();
+
+    public String getId() {
+        return name;
+    }
 
     @Builder
     public Hobby(String name, HobbyCategory category ) {

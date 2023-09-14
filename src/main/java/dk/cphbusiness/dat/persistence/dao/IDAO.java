@@ -1,5 +1,6 @@
 package dk.cphbusiness.dat.persistence.dao;
 
+import dk.cphbusiness.dat.model.IJPAEntity;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @param <T>
  */
-interface IDAO<T> {
+interface IDAO<T extends IJPAEntity> {
 
 
     void setEntityManagerFactory(EntityManagerFactory emf);

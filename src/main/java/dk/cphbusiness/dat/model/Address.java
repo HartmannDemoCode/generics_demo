@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @Builder
 @ToString
-public class Address {
+public class Address implements IJPAEntity<String>{
 
     @Id
     @Column(name = "street", nullable = false)
@@ -25,6 +25,9 @@ public class Address {
     @ToString.Exclude
     private final Set<Person> person = new HashSet<>();
 
+    public String getId() {
+        return street;
+    }
     public Address(String street, Zip zip) {
         this.street = street;
         this.zip = zip;

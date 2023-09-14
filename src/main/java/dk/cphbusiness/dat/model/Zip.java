@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Zip {
+public class Zip implements IJPAEntity<Integer> {
 
     @Id
     @Column(name = "zip")
@@ -27,6 +27,10 @@ public class Zip {
     @OneToMany(mappedBy = "zip")
     @ToString.Exclude
     private Set<Address> address = new HashSet<>();
+
+    public Integer getId() {
+        return zip;
+    }
 
     public Zip(Integer zip, String city) {
         this.zip = zip;

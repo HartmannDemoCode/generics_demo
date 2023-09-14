@@ -1,6 +1,7 @@
 package dk.cphbusiness.dat.persistence.dao;
 
 import dk.cphbusiness.dat.config.HibernateConfig;
+import dk.cphbusiness.dat.model.IJPAEntity;
 import dk.cphbusiness.dat.model.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -17,7 +18,7 @@ import java.util.List;
  *
  * @param <T>
  */
-abstract class ADAO<T> implements IDAO<T> {
+abstract class ADAO<T extends IJPAEntity> implements IDAO<T> {
 
     private EntityManagerFactory emf;
     private final Class<T> entityType;
@@ -72,14 +73,14 @@ abstract class ADAO<T> implements IDAO<T> {
 
     public T update(T t) {
         try (EntityManager em = emf.createEntityManager()) {
-            T found = em.find(entityType, t); //
+            T found = em.find(entityType, t.getId()); //
             if(found == null) {
                 throw new EntityNotFoundException();
             }
             em.getTransaction().begin();
-            T t1 = em.merge(t);
+            T merged = em.merge(t);
             em.getTransaction().commit();
-            return t1;
+            return merged;
         } catch (ConstraintViolationException e) {
             System.out.println("Constraint violation: " + e.getMessage());
             return null;
@@ -88,16 +89,15 @@ abstract class ADAO<T> implements IDAO<T> {
 
     public void delete(T t) {
         try (EntityManager em = emf.createEntityManager()) {
-            T found = em.find(entityType, t); //
+            T found = em.find(entityType, t.getId()); //
             if(found == null) {
                 throw new EntityNotFoundException();
             }
-
             em.getTransaction().begin();
-            em.remove(found); // Merge to ensure the entity is in the managed state
+            em.remove(found);
             em.getTransaction().commit();
         } catch (ConstraintViolationException e) {
-            System.out.println("Constraint violation: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -117,10 +117,12 @@ abstract class ADAO<T> implements IDAO<T> {
                 em.getTransaction().commit();
             }
             catch (Exception e) {
-                System.out.println("Sequence does not exist: " + entityName + "_id_seq");
+                System.out.println("Sequence is missinga: " + entityName + "_id_seq");
+                e.printStackTrace();
             }
         } catch (ConstraintViolationException e) {
-            System.out.println("Constraint violation: " + e.getMessage());
+            System.out.println("Constraint violation: ");
+            e.printStackTrace();
         }
     }
 
