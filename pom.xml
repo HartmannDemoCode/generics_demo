@@ -11,10 +11,20 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate-version>6.2.4.Final</hibernate-version>
-        <junit.version>5.9.1</junit.version>
         <testcontainers.version>1.18.0</testcontainers.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <hibernate.version>6.2.4.Final</hibernate.version>
+        <postgresql.version>42.6.0</postgresql.version>
+        <junit.version>5.9.1</junit.version>
+        <surefire.version>3.0.0</surefire.version>
+        <hamcrest.version>2.0.0.0</hamcrest.version>
+        <restassured.version>5.3.0</restassured.version>
+        <testcontainers.version>1.18.0</testcontainers.version>
+        <logging.version>2.14.1</logging.version>
+        <jbcrypt.version>0.4</jbcrypt.version>
+        <jwt.version>9.0.1</jwt.version>
         <db.name>genericdemo</db.name>
     </properties>
 
@@ -29,7 +39,7 @@
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate-version}</version>
+            <version>${hibernate.version}</version>
         </dependency>
 
         <dependency>
@@ -104,6 +114,12 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!--            https://www.baeldung.com/maven-surefire-report-plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
             </plugin>
         </plugins>
     </build>

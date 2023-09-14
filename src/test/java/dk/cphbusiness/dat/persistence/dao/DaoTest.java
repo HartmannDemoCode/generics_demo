@@ -131,7 +131,6 @@ public class DaoTest {
         assertEquals(person1, person);
     }
 
-
     protected Person createPerson(int uniqueId) {
         Person person = new Person();
         person.setFirstName("Test" + uniqueId);
